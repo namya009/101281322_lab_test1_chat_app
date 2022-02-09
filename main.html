@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <title>Document</title>
+</head>
+<style>
+    button{
+        margin: 4px;
+    }
+    .container{
+                text-align: center;
+                margin-top: 2%;
+                border: solid black 2px;
+                background-color:#7FFFD4 ;
+            
+                padding: 30px;
+            
+            }
+    .header{
+                font-size: large;
+                font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;    
+            }
+            
+    .messages{
+        background-color: white;
+        height: 350px;
+        overflow-y: scroll;
+    }
+</style>
+<div class="container">
+    <header class="header" >
+      Chat App 
+    </header>
+    <main >
+      <div>
+          <div>
+            <h3>Room Name: jaav</h3>
+          </div>
+        <h3>Users</h3>
+        
+      </div>
+      <div class="messages" class="overflow-auto">
+					<div class="message">
+						<p class="meta">Brad <span>9:12pm</span></p>
+						<p class="text">
+							Lorem ipsum dolor sit amet consectetur adipisicing elit. Eligendi,
+							repudiandae.
+						</p>
+					</div>
+					<div class="message">
+						<p class="meta">Mary <span>9:15pm</span></p>
+						<p class="text">
+							Lorem ipsum dolor sit amet consectetur adipisicing elit. Eligendi,
+							repudiandae.
+						</p>
+					</div>
+                    <div class="message">
+						<p class="meta">Mary <span>9:15pm</span></p>
+						<p class="text">
+							Lorem ipsum dolor sit amet consectetur adipisicing elit. Eligendi,
+							repudiandae.
+						</p>
+					</div>
+                    <div class="message">
+						<p class="meta">Mary <span>9:15pm</span></p>
+						<p class="text">
+							Lorem ipsum dolor sit amet consectetur adipisicing elit. Eligendi,
+							repudiandae.
+						</p>
+					</div>
+                    <div class="message">
+						<p class="meta">Mary <span>9:15pm</span></p>
+						<p class="text">
+							Lorem ipsum dolor sit amet consectetur adipisicing elit. Eligendi,
+							repudiandae.
+						</p>
+					</div>
+                    <div class="message">
+						<p class="meta">Mary <span>9:15pm</span></p>
+						<p class="text">
+							Lorem ipsum dolor sit amet consectetur adipisicing elit. Eligendi,
+							repudiandae.
+						</p>
+					</div>
+                    <div class="message">
+						<p class="meta">Mary <span>9:15pm</span></p>
+						<p class="text">
+							Lorem ipsum dolor sit amet consectetur adipisicing elit. Eligendi,
+							repudiandae.
+						</p>
+					</div>
+      </div>
+    </main>
+    <div class="chat-form-container">
+      <form id="chat-form">
+        <input  class="form-control"
+          id="msg"
+          type="text"
+          placeholder="Enter Message"
+          required
+          autocomplete="off"
+        />
+        <button class="btn btn-secondary"  ></i> Send</button>
+      </form>
+    </div>
+    <footer><button  class="btn btn-info" ><a href="index.html" class="btn">Leave Room</a></footer></button>
+  </div>
+
+</body>
+</html>

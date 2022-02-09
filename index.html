@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="./css/style.css">
+    <title style="font-size: larger;">Chat App</title>
+    <style>
+
+        body{
+            background-image: url('https://htmlcolorcodes.com/assets/images/html-color-codes-color-tutorials-hero.jpg') ;
+            background-size: auto;
+
+        }
+        .header{
+            font-size: large;
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;    
+        }
+        .container{
+            text-align: center;
+            margin-top: 10%;
+            border: solid black 2px;
+            background-color:#7FFFD4 ;
+            width: 30%;
+            padding: 30px;
+           
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">Chat App</header>
+    
+    <div>
+        <main >
+            <form action="main.html">
+                <div class="form-group">
+                    <label for="username">Username :</label>
+                    <input class="form-control"
+                        type="text"
+                        name="username"
+                        id="username"
+                        placeholder="Please enter your username"
+                        required
+                    />
+                </div>
+                <div class="form-group">
+                    <label for="room">Room :</label>
+                    <select class="form-control" name="room" id="room">
+                        <option value="JavaScript">JavaScript</option>
+                        <option value="Python">Python</option>
+                        <option value="PHP">PHP</option>
+                        <option value="C#">C#</option>
+                        <option value="Ruby">Ruby</option>
+                        <option value="Java">Java</option>
+                    </select>
+                </div>
+                <button class="btn btn-primary" type="submit">Join Room</button>
+            </form>
+        </main>
+    </div>
+</div>
+
+</body>
+</html>
