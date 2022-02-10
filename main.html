@@ -9,6 +9,11 @@
     <title>Document</title>
 </head>
 <style>
+   body{
+            background-image: url('https://htmlcolorcodes.com/assets/images/html-color-codes-color-tutorials-hero.jpg') ;
+            background-size: auto;
+
+        }
     button{
         margin: 4px;
     }
@@ -44,60 +49,12 @@
         <h3>Users</h3>
         
       </div>
-      <div class="messages" class="overflow-auto">
+      <div class="messages" id="messages" class="overflow-auto">
 					<div class="message">
-						<p class="meta">Brad <span>9:12pm</span></p>
-						<p class="text">
-							Lorem ipsum dolor sit amet consectetur adipisicing elit. Eligendi,
-							repudiandae.
-						</p>
-					</div>
-					<div class="message">
-						<p class="meta">Mary <span>9:15pm</span></p>
-						<p class="text">
-							Lorem ipsum dolor sit amet consectetur adipisicing elit. Eligendi,
-							repudiandae.
-						</p>
-					</div>
-                    <div class="message">
-						<p class="meta">Mary <span>9:15pm</span></p>
-						<p class="text">
-							Lorem ipsum dolor sit amet consectetur adipisicing elit. Eligendi,
-							repudiandae.
-						</p>
-					</div>
-                    <div class="message">
-						<p class="meta">Mary <span>9:15pm</span></p>
-						<p class="text">
-							Lorem ipsum dolor sit amet consectetur adipisicing elit. Eligendi,
-							repudiandae.
-						</p>
-					</div>
-                    <div class="message">
-						<p class="meta">Mary <span>9:15pm</span></p>
-						<p class="text">
-							Lorem ipsum dolor sit amet consectetur adipisicing elit. Eligendi,
-							repudiandae.
-						</p>
-					</div>
-                    <div class="message">
-						<p class="meta">Mary <span>9:15pm</span></p>
-						<p class="text">
-							Lorem ipsum dolor sit amet consectetur adipisicing elit. Eligendi,
-							repudiandae.
-						</p>
-					</div>
-                    <div class="message">
-						<p class="meta">Mary <span>9:15pm</span></p>
-						<p class="text">
-							Lorem ipsum dolor sit amet consectetur adipisicing elit. Eligendi,
-							repudiandae.
-						</p>
 					</div>
       </div>
     </main>
     <div class="chat-form-container">
-      <form id="chat-form">
         <input  class="form-control"
           id="msg"
           type="text"
@@ -105,11 +62,47 @@
           required
           autocomplete="off"
         />
-        <button class="btn btn-secondary"  ></i> Send</button>
-      </form>
+        <button class="btn btn-secondary" onclick="sendMessage()" ></i> Send</button>
     </div>
-    <footer><button  class="btn btn-info" ><a href="index.html" class="btn">Leave Room</a></footer></button>
+    <footer><button  class="btn btn-info" ><a href="/" class="btn">Leave Room</a></footer></button>
   </div>
 
 </body>
+<script src = "/socket.io/socket.io.js"></script>
+    <script>
+        const client = io()
+        var mc=document.getElementById('messages')
+        client.on('welcome', (data) =>{
+            console.log(data)
+            mc.innerHTML += '<div>' + data + '</div>'
+        })
+
+        client.on('newMessage', (message) =>{
+            console.log(message)
+            mc.innerHTML+='<div>' + message + '</div>'
+        })
+
+        function getRoom() {
+      let arr = window.location.href.split("/");
+      return arr[arr.length - 1];
+    }
+        
+      
+        function joinRoom(){
+            client.emit('joinroom', getRoom())
+            document.getElementById("roomName").innerHTML=getRoom()
+        }
+
+        function sendMessage(){
+            client.emit('message', 
+            { room:getRoom(),
+                message: document.getElementById('msg').value})
+        }
+
+        function leaveRoom() {
+            client.emit('leaveRoom')
+            window.location.href="/";
+        }
+
+    </script>
 </html>

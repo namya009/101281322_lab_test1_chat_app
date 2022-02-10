@@ -6,6 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <style>
+       body{
+            background-image: url('https://htmlcolorcodes.com/assets/images/html-color-codes-color-tutorials-hero.jpg') ;
+            background-size: auto;
+
+        }
         button{
             margin:10px;
         }
@@ -23,19 +28,19 @@
 <body>
     
     <div class="container" >
-        <form class="px-4 py-3" action="/" method="post">
+        <form class="px-4 py-3" action="/index" method="get">
           <div class="form-group">
-            <label for="exampleDropdownFormEmail1">User Name</label>
-            <input type="text" class="form-control" name="username" placeholder="User Name">
+            <label for="username">User Name</label>
+            <input type="text" class="form-control" name="username" placeholder="User Name" required >
           </div>
           <div class="form-group">
-            <label for="exampleDropdownFormPassword1">Password</label>
-            <input type="password" class="form-control" name="password" placeholder="Password" required>
+            <label for="password">Password</label>
+            <input type="password" class="form-control" name="password" placeholder="Password" minlength="5" required>
           </div>
           <button type="submit" class="btn btn-primary">Sign in</button>
         </form>
         <div class="dropdown-divider"></div>
-        <a class="dropdown-item" href="/signup">New around here? Sign up</a>
+        <a class="dropdown-item" href="/">New around here? Sign up</a>
       </div>
 </body>
 </html>

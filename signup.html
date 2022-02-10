@@ -6,6 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <style>
+       body{
+            background-image: url('https://htmlcolorcodes.com/assets/images/html-color-codes-color-tutorials-hero.jpg') ;
+            background-size: auto;
+
+        }
         .container{
             text-align: center;
                 margin-top: 2%;
@@ -23,11 +28,11 @@
         <div class="form-row">
           <div class="form-group col-md-6">
             <label for="firstname">First Name</label>
-            <input type="text" class="form-control" name="firstname" placeholder="First Name">
+            <input type="text" class="form-control" name="firstname" placeholder="First Name" required>
           </div>
           <div class="form-group col-md-6">
             <label for="lastname">Last Name</label>
-            <input type="text" class="form-control" name="lastname" placeholder="Last Name">
+            <input type="text" class="form-control" name="lastname" placeholder="Last Name" required>
           </div>
         </div>
         <div class="form-group">
@@ -38,17 +43,11 @@
             <label for="password">Password</label>
             <input type="password" class="form-control" name="password" placeholder="Password" minlength="5" required>
         </div>
-        
-        <div class="form-group">
-          <div class="form-check">
-            <input class="form-check-input" type="checkbox" id="gridCheck">
-            <label class="form-check-label" for="gridCheck">
-              Check me out
-            </label>
-          </div>
-        </div>
         <button type="submit" class="btn btn-primary">Sign in</button>
       </form>
+      <p></p>
+      <a class="dropdown-item" href="/login">Already User? log in</a>
     </div>
+    
 </body>
 </html>
