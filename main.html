@@ -21,7 +21,7 @@
                 text-align: center;
                 margin-top: 2%;
                 border: solid black 2px;
-                background-color:#7FFFD4 ;
+                background-color:#f07128 ;
             
                 padding: 30px;
             
@@ -33,7 +33,12 @@
             
     .messages{
         background-color: white;
-        height: 350px;
+        height: 250px;
+        overflow-y: scroll;
+    }
+    .chatHistory{
+        background-color: white;
+        height: 150px;
         overflow-y: scroll;
     }
 </style>
@@ -44,10 +49,8 @@
     <main >
       <div>
           <div>
-            <h3>Room Name: jaav</h3>
+            <h3>Room Name: </h3><h3 id="roomId"></h3>
           </div>
-        <h3>Users</h3>
-        
       </div>
       <div class="messages" id="messages" class="overflow-auto">
 					<div class="message">
@@ -60,49 +63,97 @@
           type="text"
           placeholder="Enter Message"
           required
-          autocomplete="off"
         />
-        <button class="btn btn-secondary" onclick="sendMessage()" ></i> Send</button>
+        <button class="btn btn-success" onclick="sendMessage()" > Send</button>
     </div>
-    <footer><button  class="btn btn-info" ><a href="/" class="btn">Leave Room</a></footer></button>
+    <footer><button onclick="leaveRoom()" class="btn btn-warning" >Leave Room</a></footer></button>
+    <div class="chatHistory">
+        <p>Chat history</p>
+        <div id="history"></div>
+      </div>
   </div>
-
+  
 </body>
 <script src = "/socket.io/socket.io.js"></script>
     <script>
+        const username = localStorage.getItem("username")
+        if(username ==""|| username ==null){
+            window.location.href = "/login"
+        }
+        function getRoom() {
+                let arr = window.location.href.split("/");
+                return arr[arr.length - 1];
+            }
+        const room = getRoom()
+        document.getElementById('roomId').innerHTML = room
+        
         const client = io()
         var mc=document.getElementById('messages')
+
+        client.emit('joinroom', getRoom(), username)
+        
         client.on('welcome', (data) =>{
             console.log(data)
             mc.innerHTML += '<div>' + data + '</div>'
         })
 
         client.on('newMessage', (message) =>{
-            console.log(message)
-            mc.innerHTML+='<div>' + message + '</div>'
+            printMessage(message)
         })
 
-        function getRoom() {
-      let arr = window.location.href.split("/");
-      return arr[arr.length - 1];
+        client.on('joined',(username)=>{
+            const newRoomMessage = {
+                message: `has Joined this group`,
+                username
+            }
+            printMessage(newRoomMessage)
+        })
+        client.on('left', (userName) => {
+            const newRoomMessage = {
+                message: `has left this group`,
+                username
+            }
+            printMessage(newRoomMessage)
+        })
+    function leaveRoom() {
+            client.emit('leaveRoom', room, username)
+            window.location.href = "/login";
+        }
+    
+    function sendMessage(){
+        client.emit('message', 
+        {   
+            username:username,
+            room: room,
+            message: document.getElementById('msg').value
+        })
+        printMessage(message= {
+            username: username,
+            room: room,
+            message: document.getElementById('msg').value
+        })
     }
-        
-      
-        function joinRoom(){
-            client.emit('joinroom', getRoom())
-            document.getElementById("roomName").innerHTML=getRoom()
-        }
+    function printMessage(message){
+        document.getElementById('messages').innerHTML += `<li> ${message.username}: ${message.message} </li>`
+    }
 
-        function sendMessage(){
-            client.emit('message', 
-            { room:getRoom(),
-                message: document.getElementById('msg').value})
+    fetch('http://localhost:9000/chathistory',{
+        method: "POST",
+            cache: 'no-cache',
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                room
+            })
         }
-
-        function leaveRoom() {
-            client.emit('leaveRoom')
-            window.location.href="/";
-        }
-
+        )
+            .then(res => res.json())
+            .then(res => {
+                var result = res
+                for(let i=0;i<result.length;i++){
+                    document.getElementById("history").innerHTML +=
+                            `<li> ${result[i].from_user} : ${result[i].message}</li>` 
+                }
+            })
+            .catch(err => alert(err))
     </script>
 </html>

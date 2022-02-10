@@ -12,61 +12,32 @@ const PORT = 9000 || process.env.PORT;
 //create server side socket
 const io = require('socket.io')(http)
 
-
-
-
 app.use(cors())
 users = []
 
 io.on('connection', (socket) => {
-    console.log('Connected ')
-    
-    socket.emit('welcome', 'Welcome to Socket Programming : ' + socket.id)
-    //console.log(socket)
-  
-    socket.on('message', (data) => {
-        if(data.room == '' || data.room==undefined){
-            io.emit('newMessage', socket.id + ' : ' + data.message)
-        }else{
-          
-          io.to(data.room).emit('newMessage', socket.id +' : ' + data.message)
-          if(data.room=='news'||data.room=='covid'||data.room=='nodeJs'){
-            const gm = new gmModel({from_user:socket.id,room:data.room,message:data.message});
-            try {
-              gm.save();
-            } catch (err) {
-              console.log(err);
-            }
-          }
-          else{
-            const pm= new pmModel({from_user:socket.id,to_user:room,message:data.message})
-            try {
-              pm.save();
-            } catch (err) {
-              console.log(err);
-            }
-          }
-        }
-  
-    })
+  console.log('Connected ')
+  socket.emit('welcome', 'Welcome to Socket Programming : ' + socket.id)
+  socket.on('message', async (data) => {
+    const message = {
+      username: data.username,
+      message: data.message
+    }
+    socket.broadcast.to(data.room).emit('newMessage', message)
 
-
-    //custom message socket
-    socket.on('message', (data) => {
-        console.log(data)
-
-        if(data.room == '' || data.room==undefined){
-            io.emit('newMessage', socket.id + ' : ' + data.message)
-        }else{
-          console.log(data)
-          io.to(data.room).emit('newMessage', socket.id +' : ' + data.message)
-          //if(data.room=='news'||data.room=='covid'||data.room=='nodeJs'){
-            
-          
-        }
-  
-    })
-  
+    console.log(`${data.username} send a message to ${data.room}`)
+    try {
+      const newMsg = gmModel({
+        from_user: data.username,
+        room: data.room,
+        message: data.message
+      })
+      await newMsg.save()
+    }
+    catch (e) {
+      throw new Error(e.message)
+    }
+  })
     //Get User name
     socket.on('newUser', (name) => {
         if(!users.includes(name)){
@@ -76,18 +47,12 @@ io.on('connection', (socket) => {
     })
     
     //Group/Room Join
-    socket.on('joinroom', (room) => {
-        console.log(room)
+    socket.on('joinroom', (room,username) => {
         socket.join(room)
-        roomName = room
-        socket.currentRoom = room;
-        const msg = gmModel.find({room: room}).sort({'date_sent': 'desc'}).limit(10);
-        socket.msg=msg
+        socket.broadcast.to(room).emit('joined', username)
     })
-    socket.on('leaveRoom', () =>{
-        socket.leave(socket.currentRoom);
-        socket.currentRoom = null;
-        console.log(socket.rooms);
+    socket.on('leaveRoom', (room, username) =>{
+      socket.broadcast.to(room).emit('left', username)
     })
     //Disconnected
     socket.on('disconnect', () => {
@@ -147,9 +112,7 @@ app.post('/', async (req, res) => {
     const password=req.body.password
 
     const user = await userModel.find({username:username});
-
     try {
-
         if(user.length != 0){
         if(user[0].password==password){
             return res.redirect('/?uname='+username)
@@ -185,7 +148,16 @@ app.get("/login", (req, res) => {
     res.sendFile(__dirname + "/login.html")
 })
 
-
+app.post("/chathistory",async(req,res)=>{
+  try {
+    const { room } = req.body
+    const result = await gmModel.find({ room: room})
+    res.status(200).send(result)
+}
+catch (e) {
+    res.status(400).send({ error: e.message });
+}
+})
 
 
 http.listen(PORT, () =>{

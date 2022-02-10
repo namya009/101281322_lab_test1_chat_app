@@ -22,7 +22,7 @@
             text-align: center;
             margin-top: 10%;
             border: solid black 2px;
-            background-color:#7FFFD4 ;
+            background-color:#f07128;
             width: 30%;
             padding: 30px;
            
@@ -36,22 +36,26 @@
     
     <div>
         <main >
-                <div class="form-group">
-                    <button class="btn btn-primary" type="submit" onclick="myFunction('news')">News</button>
-                    <button class="btn btn-primary" type="submit" onclick="myFunction('covid')">Covid - 19</button>
-                    <button class="btn btn-primary" type="submit" onclick="myFunction('nodejs')">NodeJs</button>
-                </div>
-                
+            <div class="form-group">
+                <button class="btn btn-primary" type="submit" onclick="myFunction('news')">News</button>
+                <button class="btn btn-primary" type="submit" onclick="myFunction('covid19')">Covid-19</button>
+                <button class="btn btn-primary" type="submit" onclick="myFunction('nodejs')">NodeJs</button>
+            </div>
         </main>
     </div>
 </div>
 <script>
-
-
-function myFunction(room) {
-            window.location.href="../main/"+room;
-       }
-
+    const user = localStorage.getItem("username")
+    if (user == "" || user == null) {
+        window.location.href = "/login"
+    }  
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    const username = urlParams.get('username')
+    localStorage.setItem("username",username)
+    function myFunction(room) {
+        window.location.href="../main/"+room;
+        }
 </script>
 </body>
 </html>
